@@ -8,6 +8,6 @@ app.listen(port, function() {
 });
 
 var io = socket.listen(app);
-io.socket.on('connection', function(client) {
+io.sockets.on('connection', function(client) {
 	console.log("Client connection");
 });
