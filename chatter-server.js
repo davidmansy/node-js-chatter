@@ -1,13 +1,16 @@
 var socket = require('socket.io');
 var express = require('express');
+var http = require('http');
+
 var app = express();
+var server = http.createServer(app);
+var io = socket.listen(server);
 
 var port = process.env.PORT || 8080;
-app.listen(port, function() {
+server.listen(port, function() {
   console.log("Listening on " + port);
 });
 
-var io = socket.listen(app);
 io.sockets.on('connection', function(client) {
 	console.log("Client connection");
 });
