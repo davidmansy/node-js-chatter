@@ -36,6 +36,7 @@ io.sockets.on('connection', function (client) {
 			//Then store the message in the array and broadcast the client message to all clients
 			storeMessage(nickname, message);
 			console.log(messages);
+			client.emit('chat', nickname + ": " + message);
 			client.broadcast.emit('chat', nickname + ": " + message);
 		});
 	});
