@@ -12,5 +12,5 @@ server.listen(port, function() {
 });
 
 io.sockets.on('connection', function(client) {
-	console.log("Client connection");
+	console.log("Client connected");
 });
