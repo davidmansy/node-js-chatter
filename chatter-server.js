@@ -1,7 +1,8 @@
 //socket.io requires a server so transfrom the express app to a server
 var app = require("express")()
   , server = require('http').createServer(app)
-  , io = require('socket.io').listen(server);
+  , io = require('socket.io').listen(server)
+  , messages = [];
 
 //Express
 server.listen(8080);
@@ -12,18 +13,23 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
-//socker
-io.sockets.on('connection', function (socket) {
+//socket
+io.sockets.on('connection', function (client) {
 	console.log("Client connected");
 
-	socket.on('messages', function(data) {
-		console.log(data);
+	client.on('join', function(nickname) {
+		client.set('nickname', nickname);
 	});
 
-	/*
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-*/
+	client.on('messages', function(messages) {
+		storeMessage(message);
+	});
+
 });
+
+function storeMessage(message) {
+	messages.push(message);
+	if (messages.length > 10) {
+		messages.shift();
+	}
+}
