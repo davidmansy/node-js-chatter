@@ -51,14 +51,13 @@
           server.emit('join', nickname);
         });
 
+        server.on('add chatter', function(nickname) {
+          displayChatter(nickname);
+        })
+
         server.on('messages', function(message) {
           display(message);
         });
-
-        server.on('chat', function(message) {
-          display(message);
-        })
-
 
         //If click on send, send a message to the server with the value of the input tag
         $('.send').on('click', function(event) {
@@ -67,11 +66,6 @@
           server.emit("messages", message);
           $('.draft').val('');
         });
-
-        /*
-        //Every 3 sec retrieve the messages from the server and display it
-        refreshMessages();
-        */
 
       });
       //END OF MAIN PROGRAM LOGIC
@@ -108,10 +102,23 @@
       }
 
       //Rewriting display function
+      var listCount = 0;
       function display(str) {
         var ul = $('.messages');
+        if (listCount == 10) {
+          ul.children('li').first().remove();
+          listCount--;
+        }
+        ul.append('<li>' + str + '</li>');
+        listCount++;
+      }
+
+      function displayChatter(str) {
+        var ul = $('.chatters');
         ul.append('<li>' + str + '</li>');
       }
+
+
 
       //Rewriting fetch function
       function fetch(fn) {
@@ -167,6 +174,9 @@
 
     <input class="draft" type="text"/> <button class="send" disabled>send</button>
     <p id="status"></p>
+
+    <ul class="chatters">
+    </ul>
 
     <ul class="messages">
     </ul>
