@@ -39,8 +39,15 @@
       //MAIN PROGRAM LOGIC
       $(document).ready(function() {
 
-        var server = io.connect('http:ec2-54-200-14-77.us-west-2.compute.amazonaws.com:8080');
+        var server = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com:8080');
 
+        var socket = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com:8080');
+          /*
+          socket.on('news', function (data) {
+          console.log(data);
+          socket.emit('my other event', { my: 'data' });
+          */
+        });
         /*
         //Making the button enabled
         $('.send').removeAttr('disabled');

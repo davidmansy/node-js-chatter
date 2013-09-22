@@ -1,16 +1,19 @@
-var socket = require('socket.io');
-var express = require('express');
-var http = require('http');
+var app = require('express').createServer()
+  , io = require('socket.io').listen(app);
 
-var app = express();
-var server = http.createServer(app);
-var io = socket.listen(server);
+app.listen(8080);
 
-var port = process.env.PORT || 8080;
-server.listen(port, function() {
-  console.log("Listening on " + port);
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
 });
 
-io.sockets.on('connection', function(client) {
+io.sockets.on('connection', function (socket) {
 	console.log("Client connected");
+
+	/*
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+*/
 });
