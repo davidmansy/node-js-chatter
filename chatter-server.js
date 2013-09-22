@@ -2,7 +2,7 @@
 var app = require("express")()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
-  , messages = [];
+  , messages = [{nickname: "Jim", message: "I believe I can fly"}];
 
 //Express
 server.listen(8080);
