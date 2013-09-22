@@ -10,6 +10,7 @@ app.listen(8080);
 
 //Express
 app.get('/', function (req, res) {
+	console.log("Receiving request");
   res.sendfile(__dirname + '/index.html');
 });
 

@@ -3,8 +3,8 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="http://chatbuilder.hackreactor.com/ChatBuilder.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="http://chatbuilder.hackreactor.com/ChatBuilder.json"></script>
   </head>
   <body>
     <script>
@@ -39,14 +39,13 @@
       //MAIN PROGRAM LOGIC
       $(document).ready(function() {
 
-
-        var socket = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com:8080');
-          /*
-          socket.on('news', function (data) {
+        var socket = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com');
+        /*
+        socket.on('news', function (data) {
           console.log(data);
           socket.emit('my other event', { my: 'data' });
-          */
         });
+        */
         /*
         //Making the button enabled
         $('.send').removeAttr('disabled');
