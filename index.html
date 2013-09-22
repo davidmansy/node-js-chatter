@@ -51,7 +51,7 @@
           server.emit('join', nickname);
         });
 
-        server.on('messages', function(data) {
+        server.on('messages', function(message) {
           display(message);
         });
 
