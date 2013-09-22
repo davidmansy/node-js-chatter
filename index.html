@@ -40,6 +40,18 @@
       $(document).ready(function() {
 
         var socket = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com');
+
+        //Making the button enabled
+        $('.send').removeAttr('disabled');
+
+        //If click on send, send a message to the server with the value of the input tag
+        $('.send').on('click', function(event) {
+          event.preventDefault();
+          var message = $('.draft').val();
+          socket.emit("messages", message);
+          input.val('');
+        });
+
         /*
         socket.on('news', function (data) {
           console.log(data);
