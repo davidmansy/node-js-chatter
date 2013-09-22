@@ -15,20 +15,34 @@ app.get('/', function (req, res) {
 
 //socket
 io.sockets.on('connection', function (client) {
+
 	console.log("Client connected");
 
 	client.on('join', function(nickname) {
+		//When client joins, store the nickname and broadcast a message "client joined the chat" to all clients
 		client.set('nickname', nickname);
+		client.broadcast.emit('chat', nickname + "joined the chat");
+
+		//Then send all existing message to the new joined client
+		messages.forEach(function(message) {
+			client.emit('messages', message.nickname + ": " + message.message);
+		});
+
 	});
 
-	client.on('messages', function(messages) {
-		storeMessage(message);
+	client.on('messages', function(message) {
+		//When a client sends a message, first gets his nickname
+		client.get('nickname', function(err, nickname) {
+			//Then store the message in the array and broadcast the client message to all clients
+			storeMessage(nickname, message);
+			client.broadcast.emit('chat', nickname + ": " + message);
+		});
 	});
 
 });
 
-function storeMessage(message) {
-	messages.push(message);
+function storeMessage(nickname, message) {
+	messages.push({nickname: nickname, message: message});
 	if (messages.length > 10) {
 		messages.shift();
 	}

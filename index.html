@@ -52,8 +52,12 @@
         });
 
         server.on('messages', function(data) {
-
+          display(message);
         });
+
+        server.on('chat', function(message) {
+        })
+
 
         //If click on send, send a message to the server with the value of the input tag
         $('.send').on('click', function(event) {
