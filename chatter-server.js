@@ -23,7 +23,7 @@ io.sockets.on('connection', function (client) {
 		client.set('nickname', nickname);
 		client.broadcast.emit('chat', nickname + "joined the chat");
 
-		//Then send all existing message to the new joined client
+		//Then send all existing message to the newly joined client
 		messages.forEach(function(message) {
 			client.emit('messages', message.nickname + ": " + message.message);
 		});
