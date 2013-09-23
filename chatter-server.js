@@ -5,10 +5,9 @@ var app = require("express")()
   , messages = []
   , chatters = []
   , fs = require('fs')
-  , window;
+  , window = {};
 
- window = undefined;
- window.document = undefined;
+ window.document = {}};
 
 eval(fs.readFileSync('hackreactor_chatbuilder.js')+'');
 
