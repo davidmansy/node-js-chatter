@@ -5,7 +5,8 @@ var app = require("express")()
   , messages = []
   , chatters = []
   , fs = require('fs')
-  , window = {};
+  , window = {},
+  , U = {};
 
  window.document = {};
  U.createElement = function() {};
