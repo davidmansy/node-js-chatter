@@ -7,7 +7,7 @@ var app = require("express")()
   , fs = require('fs')
   , window = {};
 
- window.document = {}};
+ window.document = {};
 
 eval(fs.readFileSync('hackreactor_chatbuilder.js')+'');
 
