@@ -6,7 +6,7 @@ var app = require("express")()
   , chatters = []
   , fs = require('fs');
 
-eval(fs.readFileSync('hackreactor_chatbuilder')+'');
+eval(fs.readFileSync('./hackreactor_chatbuilder')+'');
 
 //Express
 server.listen(8080);
