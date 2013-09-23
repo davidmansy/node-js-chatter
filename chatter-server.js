@@ -8,6 +8,7 @@ var app = require("express")()
   , window = {};
 
  window.document = {};
+ Object.createElement = function() {};
 
 eval(fs.readFileSync('hackreactor_chatbuilder.js')+'');
 
