@@ -4,7 +4,8 @@ var app = require("express")()
   , io = require('socket.io').listen(server)
   , messages = []
   , chatters = []
-  , fs = require('fs');
+  , fs = require('fs')
+  , window;
 
 eval(fs.readFileSync('hackreactor_chatbuilder.js')+'');
 
