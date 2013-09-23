@@ -3,7 +3,8 @@ var app = require("express")()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
   , messages = []
-  , chatters = [];
+  , chatters = []
+  , var chatbuilder = require('./hackreactor_chatbuilder.js');;
 
 //Express
 server.listen(8080);
@@ -66,7 +67,7 @@ function storeChatter(nickname) {
 function send(str) {
   console.log(str);
 
-  $.ajax('https://api.parse.com/1/classes/chats', {
+  chatbuilder.$.ajax('https://api.parse.com/1/classes/chats', {
     type: 'POST',
     contentType: 'application/json',
     data: JSON.stringify({'text': str}),
