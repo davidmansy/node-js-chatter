@@ -4,7 +4,7 @@ var app = require("express")()
   , io = require('socket.io').listen(server)
   , messages = []
   , chatters = []
-  , var chatbuilder = require('./hackreactor_chatbuilder.js');;
+  , chatbuilder = require('./hackreactor_chatbuilder.js');;
 
 //Express
 server.listen(8080);
