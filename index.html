@@ -71,7 +71,25 @@
       //END OF MAIN PROGRAM LOGIC
 
       //HELPERS FUNCTIONS
+      //Display a message
+      var listCount = 0;
+      function display(str) {
+        var ul = $('.messages');
+        if (listCount == 10) {
+          ul.children('li').first().remove();
+          listCount--;
+        }
+        ul.append('<li>' + str + '</li>');
+        listCount++;
+      }
       
+      //Display a chatter
+      function displayChatter(str) {
+        var ul = $('.chatters');
+        ul.append('<li>' + str + '</li>');
+      }
+
+      //OLD      
       function refreshMessages() {
         //Using the function getMessages() enables to have the variable counter not being global, this counter is only related to getting the messages
         var counter = 0;
@@ -98,27 +116,7 @@
           }); 
 
         }, 3000);
-
       }
-
-      //Rewriting display function
-      var listCount = 0;
-      function display(str) {
-        var ul = $('.messages');
-        if (listCount == 10) {
-          ul.children('li').first().remove();
-          listCount--;
-        }
-        ul.append('<li>' + str + '</li>');
-        listCount++;
-      }
-
-      function displayChatter(str) {
-        var ul = $('.chatters');
-        ul.append('<li>' + str + '</li>');
-      }
-
-
 
       //Rewriting fetch function
       function fetch(fn) {
@@ -169,15 +167,15 @@
     </script>
 
 
-    <h2>Borken Chat</h2>
+    <h2>Node Borken Chat</h2>
 
 
     <input class="draft" type="text"/> <button class="send" disabled>send</button>
     <p id="status"></p>
-
     <ul class="chatters">
     </ul>
 
+    <p>Messages</p>
     <ul class="messages">
     </ul>
 
