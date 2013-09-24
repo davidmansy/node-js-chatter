@@ -45,21 +45,24 @@
         //Connect to the server
         var server = io.connect('http://ec2-54-200-14-77.us-west-2.compute.amazonaws.com');
 
+        //When connected, display it, ask the nickname to the user and emit a "join" event to the server
         server.on('connect', function(data) {
           $('#status').html("Connected to Chattr");
           nickname = prompt("What is your nickname?");
           server.emit('join', nickname);
         });
 
+        //When a chatter has been added, display it in the list of chatters
         server.on('add chatter', function(nickname) {
           displayChatter(nickname);
         })
 
+        //When a new message has been created by a client, display it in the list of messages
         server.on('messages', function(message) {
           display(message);
         });
 
-        //If click on send, send a message to the server with the value of the input tag
+        //If click on send, emit a "messages" event to the server with the value of the input tag
         $('.send').on('click', function(event) {
           event.preventDefault();
           var message = $('.draft').val();
@@ -89,80 +92,6 @@
         ul.append('<li>' + str + '</li>');
       }
 
-      //OLD      
-      function refreshMessages() {
-        //Using the function getMessages() enables to have the variable counter not being global, this counter is only related to getting the messages
-        var counter = 0;
-        
-        //Call fetch every 3 sec
-        //setInterval calls an anonymous function including a call to fetch with an argument being an anonymous function to display the messages
-        setInterval(function() {
-
-          fetch(function (messages) {
-            //If first call, load the full list, counter is accessed via a closure
-            if (counter == 0) {
-              for (var i = 0; i < 10; i++) {
-                display(messages[i]);
-              }
-              counter = 1;            
-            } else {
-              //Else update each existing list item
-              var li = $('.messages').children('li').first();
-              for (var i = 0; i < messages.length; i++) {
-                li.text(messages[i]);
-                li = li.next();
-              }
-            }
-          }); 
-
-        }, 3000);
-      }
-
-      //Rewriting fetch function
-      function fetch(fn) {
-
-        var arr = [];
-
-        $.ajax('https://api.parse.com/1/classes/chats', {
-          contentType: 'application/json',
-          dataType: 'json',
-          data: {'order': 'updatedAt'},
-          success: function(response) {
-            //Fill in the array with the messages retrieved from the server
-            //The callback function has access to the variable arr via a closure
-            $.each(response.results, function(index, message) {
-              console.log(message);
-              arr.push(message.text);
-            });
-            //Call the argument function with the messages array as argument
-            fn(arr);
-          },
-          error: function(request, errorType, errorMessage) {
-            console.log('Error: ' + errorType + ' with message ' + errorMessage);
-          }
-        });
-
-      }
-
-      //Rewriting send function
-      function send(str) {
-        console.log(str);
-
-        $.ajax('https://api.parse.com/1/classes/chats', {
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify({'text': str}),
-          dataType: 'json',
-          success: function(result) {
-            console.log(result);
-          },
-          error: function(request, errorType, errorMessage) {
-            console.log('Error: ' + errorType + ' with message ' + errorMessage);
-            console.log(str);
-          }
-        });
-
-      }
       
     </script>
 

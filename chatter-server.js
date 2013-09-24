@@ -4,14 +4,10 @@ var app = require("express")()
   , io = require('socket.io').listen(server)
   , messages = []
   , chatters = []
-  , fs = require('fs')
-  , window = {}
-  , U = {};
-
- window.document = {};
- U.createElement = function() {};
-
-eval(fs.readFileSync('hackreactor_chatbuilder.js')+'');
+  , Parse = require('node-parse-api').Parse
+  , APP_ID = "7zdZqj54MGxLbPW2s7TM3Ys68NVy3MPWOa1RWSJ7"
+  , MASTER_KEY = "DvQ7Ifq8YtCemeeIFEkitHS7Tb5pLaJc0gBKS7CR"
+  , app = new Parse(APP_ID, MASTER_KEY);
 
 //Express
 server.listen(8080);
@@ -28,12 +24,12 @@ io.sockets.on('connection', function (client) {
 	console.log("Client connected");
 
 	client.on('join', function(nickname) {
-		//When client joins, store the nickname and broadcast the nickname to all clients
+		//When client joins, store the nickname and broadcast a "add chatter" event with the nickname to all clients
 		client.set('nickname', nickname);
 		client.broadcast.emit('add chatter', nickname);
 		//Store the new chatter in the list of chatters
 		storeChatter(nickname);
-		//Send the list of the connected chatters to the client
+		//Emit a "add chatter" event for each connected chatters to the client
 		chatters.forEach(function(chatter) {
 			client.emit('add chatter', chatter);
 		});
@@ -50,9 +46,6 @@ io.sockets.on('connection', function (client) {
 		client.get('nickname', function(err, nickname) {
 			//Then store the message in the array and broadcast the client message to all clients
 			storeMessage(nickname, message);
-			//
-			send(nickname + ": " + message, messages);
-			//
 			client.emit('messages', nickname + ": " + message, messages);
 			client.broadcast.emit('messages', nickname + ": " + message, messages);
 		});
@@ -69,23 +62,4 @@ function storeMessage(nickname, message) {
 
 function storeChatter(nickname) {
 	chatters.push(nickname);
-}
-
-function send(str) {
-  console.log(str);
-
-  chatbuilder.$.ajax('https://api.parse.com/1/classes/chats', {
-    type: 'POST',
-    contentType: 'application/json',
-    data: JSON.stringify({'text': str}),
-    dataType: 'json',
-    success: function(result) {
-      console.log(result);
-    },
-    error: function(request, errorType, errorMessage) {
-      console.log('Error: ' + errorType + ' with message ' + errorMessage);
-      console.log(str);
-    }
-  });
-
 }
