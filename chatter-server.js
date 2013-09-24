@@ -1,15 +1,19 @@
 //socket.io requires a server so transfrom the express app to a server
-var app = require("express")()
+var app = require('express')()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
   , messages = []
-  , chatters = []
-  , Parse = require('node-parse-api').Parse
-  , APP_ID = "7zdZqj54MGxLbPW2s7TM3Ys68NVy3MPWOa1RWSJ7"
-  , MASTER_KEY = "DvQ7Ifq8YtCemeeIFEkitHS7Tb5pLaJc0gBKS7CR"
-  , parseApp = new Parse(APP_ID, MASTER_KEY);
+  , chatters = [];
 
-console.log(parseApp);
+// the class
+var Kaiseki = require('kaiseki');
+
+// instantiate
+var APP_ID = '7zdZqj54MGxLbPW2s7TM3Ys68NVy3MPWOa1RWSJ7';
+var REST_API_KEY = 'Gq1ttuldkzO43EpoIDXb4A74296uq8ly78RrrztA';
+var kaiseki = new Kaiseki(APP_ID, REST_API_KEY);
+
+
 
 //Express
 server.listen(8080);
@@ -66,16 +70,16 @@ function storeMessage(nickname, message) {
 
 function storeChatter(nickname) {
 	// add a chatter on parse.com
-	parseApp.insert('Chatter', { nickname: nickname }, function (err, response) {
-		console.log("hello");
-	  console.log(response);
+	var chatter = {};
+	chatter.nickname = nickname;
+	var className = 'Chatter';
+
+	kaiseki.createObject(className, chatter, function(err, res, body, success) {
+	  console.log('object created = ', body);
+	  console.log('object id = ', body.objectId);
 	});
 }
 
 function getChatters() {
 	// Get all chatters from parse.com
-	parseApp.findMany('Chatter', {}, function (err, response) {
-  	console.log(response);
-  	return response.results;
-	});
 }
