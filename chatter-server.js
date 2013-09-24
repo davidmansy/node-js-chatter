@@ -30,7 +30,7 @@ io.sockets.on('connection', function (client) {
 		//Store the new chatter in the list of chatters
 		storeChatter(nickname);
 		//Emit a "add chatter" event for each connected chatters to the client
-		chatters.forEach(function(chatter) {
+		getChatters().forEach(function(chatter) {
 			client.emit('add chatter', chatter);
 		});
 
@@ -61,5 +61,16 @@ function storeMessage(nickname, message) {
 }
 
 function storeChatter(nickname) {
-	chatters.push(nickname);
+	// add a chatter on parse.com
+	parseApp.insert('Chatter', { nickname: nickname }, function (err, response) {
+	  console.log(response);
+	});
+}
+
+function getChatters() {
+	// Get all chatters from parse.com
+	parseApp.findMany('Chatter', {}, function (err, response) {
+  	console.log(response);
+  	return response.results;
+	});
 }
