@@ -47,7 +47,7 @@ io.sockets.on('connection', function (client) {
 		//Then send all existing message to the newly joined client
 		// query the last 10 messages
 		var params = {
-		  order: 'updatedAt',
+		  order: '-updatedAt',
 		  limit: 10
 		};
 
