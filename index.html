@@ -57,6 +57,11 @@
           displayChatter(nickname);
         })
 
+        //When a chatter has been disconnected, remove it from the list of chatters
+        server.on('remove chatter', function(nickname) {
+          removeChatter(nickname);
+        })
+
         //When a new message has been created by a client, display it in the list of messages
         server.on('messages', function(message) {
           display(message);
@@ -87,9 +92,15 @@
       }
       
       //Display a chatter
-      function displayChatter(str) {
+      function displayChatter(nickname) {
         var ul = $('.chatters');
-        ul.append('<li>' + str + '</li>');
+        var chatter = $('<li>'+nickname+'</li>').data('nickname', nickname);
+        ul.append(chatter);
+      }
+
+      //Remove a chatter
+      function removeChatter(nickname) {
+        $('.chatters li[data-nickname=' + nickname + ']').remove();
       }
 
       

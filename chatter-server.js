@@ -34,7 +34,7 @@ io.sockets.on('connection', function (client) {
 		client.set('nickname', nickname);
 		client.broadcast.emit('add chatter', nickname);
 		//Store the new chatter in the list of chatters
-		storeChatter(nickname);
+		storeChatter(nickname, client);
 		//Emit a "add chatter" event for each connected chatters to the client
 		kaiseki.getObjects('Chatter', function(err, res, body, success) {
 		  console.log('all chatters = ', body);
@@ -61,6 +61,25 @@ io.sockets.on('connection', function (client) {
 		});
 	});
 
+	//Remove the client when disconnected	￼
+	client.on('disconnect', function(name){
+		//Retrieve the nickname and emit a "remove chatter" event to the client so that it deletes the chatter from the list
+	  client.get('nickname', function(err, name){
+	    client.broadcast.emit("remove chatter", name);
+	  });
+
+	  //Retrieve the id of the chatter and use it to delete the chatter
+	  client.get('id', function(err, id){
+			//Delete the chatter
+			kaiseki.deleteObject('Chatter', id, function(err, res, body, success) {
+			  if (success)
+			    console.log('deleted!');
+			  else
+			    console.log('failed!');
+			});
+	  });
+	});
+
 });
 
 function storeMessage(nickname, message) {
@@ -70,7 +89,7 @@ function storeMessage(nickname, message) {
 	}
 }
 
-function storeChatter(nickname) {
+function storeChatter(nickname, client) {
 	// add a chatter on parse.com
 	var chatter = {};
 	chatter.nickname = nickname;
@@ -79,6 +98,8 @@ function storeChatter(nickname) {
 	kaiseki.createObject(className, chatter, function(err, res, body, success) {
 	  console.log('object created = ', body);
 	  console.log('object id = ', body.objectId);
+	  client.set('id', chatter.objectId);
 	});
+
 }
 
