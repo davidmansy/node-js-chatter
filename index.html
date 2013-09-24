@@ -68,6 +68,7 @@
       //Display a chatter
       function displayChatter(nickname) {
         var chatter = $('<li>'+nickname+'</li>').data('nickname', nickname);
+        console.log(chatter);
         $('#chatters').append(chatter);
       }
 
