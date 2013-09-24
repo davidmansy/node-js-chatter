@@ -93,9 +93,8 @@
       
       //Display a chatter
       function displayChatter(nickname) {
-        var ul = $('.chatters');
         var chatter = $('<li>'+nickname+'</li>').data('nickname', nickname);
-        ul.append(chatter);
+        $('#chatters').append(chatter);
       }
 
       //Remove a chatter
@@ -112,7 +111,7 @@
 
     <input class="draft" type="text"/> <button class="send" disabled>send</button>
     <p id="status"></p>
-    <ul class="chatters">
+    <ul id="chatters">
     </ul>
 
     <p>Messages</p>
