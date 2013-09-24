@@ -68,15 +68,15 @@
       
       //Display a chatter
       function displayChatter(nickname) {
-        var chatter = $('<li>'+nickname+'</li>').data('nickname', nickname);
-        console.log(chatter.data('nickname'));
+        var chatter = $('<li>'+nickname+'</li>').data('name', nickname);
+        console.log(chatter.data('name'));
         $('#chatters').append(chatter);
       }
 
       //Remove a chatter
       function removeChatter(nickname) {
-        console.log("I know I have to remove this guy...");
-        $('#chatters li[data-nickname=' + nickname + ']').remove();
+        console.log("I know I have to remove this guy... " + nickname);
+        $('#chatters li[data-name=' + nickname + ']').remove();
       }
 
       
