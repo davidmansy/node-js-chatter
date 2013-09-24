@@ -57,19 +57,24 @@ io.sockets.on('connection', function (client) {
 	//RECEIVE A MESSAGE
 	client.on('messages', function(message) {
 
-		//When a client sends a message, first gets his nickname
+		//When a client sends a message, first gets his nickname and emit the message to all clients
 		client.get('nickname', function(err, nickname) {
 
-			//Store the new message in parse then emit a "messages" event to all client
-			kaiseki.createObject('Message', message, function(err, res, message, success) {
-			  console.log('object created = ', message);
-			  console.log('object id = ', message.objectId);
-
-				client.emit('messages', nickname + ": " + message, messages);
-				client.broadcast.emit('messages', nickname + ": " + message, messages);
+			//Store the new message in parse
+			var messageObj = {};
+			messageObj.nickname = nickname;
+			messageObj.message = message;
+			kaiseki.createObject('Message', messageObj, function(err, res, messageObj, success) {
+			  console.log('object created = ', messageObj);
+			  console.log('object id = ', messageObj.objectId);
 			});
 
+
+
+			client.emit('messages', nickname + ": " + message);
+			client.broadcast.emit('messages', nickname + ": " + message);
 		});
+
 
 	});
 
