@@ -76,7 +76,7 @@
       //Remove a chatter
       function removeChatter(nickname) {
         console.log("I know I have to remove this guy... " + nickname);
-        var chat = $('#chatters').find('li[data-name="' + nickname + '"]');
+        var chat = $('#chatters').find("li[data-name='" + nickname + "']");
         console.log(chat);
         chat.remove();
       }
