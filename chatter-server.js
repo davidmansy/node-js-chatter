@@ -72,8 +72,7 @@ io.sockets.on('connection', function (client) {
 	client.on('disconnect', function(name){
 		//Retrieve the nickname and emit a "remove chatter" event to the client so that it deletes the chatter from the list
 	  client.get('nickname', function(err, name){
-	    client.emit("remove chatter", name);
-	    client.broadcast.emit("remove chatter", name);
+	    client.broadcast.emit('remove chatter', name);
 	  });
 
 	  //Retrieve the id of the chatter and use it to delete the chatter
