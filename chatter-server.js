@@ -34,15 +34,23 @@ io.sockets.on('connection', function (client) {
 		client.set('nickname', nickname);
 		client.broadcast.emit('add chatter', nickname);
 		//Store the new chatter in the list of chatters
-		storeChatter(nickname, client);
-		//Emit a "add chatter" event for each connected chatters to the client
-		kaiseki.getObjects('Chatter', function(err, res, body, success) {
-		  console.log('all chatters = ', body);
-			body.forEach(function(chatter) {
-				client.emit('add chatter', chatter.nickname);
+		var chatter = {};
+		chatter.nickname = nickname;
+		var className = 'Chatter';
+
+		//Store the new chatter in parse and store the id in the client then emit a "add chatter" event
+		kaiseki.createObject(className, chatter, function(err, res, body, success) {
+		  console.log('object created = ', body);
+		  console.log('object id = ', body.objectId);
+		  client.set('id', chatter.objectId);
+			//Emit a "add chatter" event for each connected chatters to the client
+			kaiseki.getObjects('Chatter', function(err, res, body, success) {
+			  console.log('all chatters = ', body);
+				body.forEach(function(chatter) {
+					client.emit('add chatter', chatter.nickname);
+				});
 			});
 		});
-
 
 		//Then send all existing message to the newly joined client
 		messages.forEach(function(message) {
@@ -88,18 +96,3 @@ function storeMessage(nickname, message) {
 		messages.shift();
 	}
 }
-
-function storeChatter(nickname, client) {
-	// add a chatter on parse.com
-	var chatter = {};
-	chatter.nickname = nickname;
-	var className = 'Chatter';
-
-	kaiseki.createObject(className, chatter, function(err, res, body, success) {
-	  console.log('object created = ', body);
-	  console.log('object id = ', body.objectId);
-	  client.set('id', chatter.objectId);
-	});
-
-}
-
