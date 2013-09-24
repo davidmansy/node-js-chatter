@@ -36,11 +36,9 @@ io.sockets.on('connection', function (client) {
 		//Store the new chatter in the list of chatters
 		storeChatter(nickname);
 		//Emit a "add chatter" event for each connected chatters to the client
-		/*
 		getChatters().forEach(function(chatter) {
-			client.emit('add chatter', chatter);
+			client.emit('add chatter', chatter.nickname);
 		});
-*/
 
 		//Then send all existing message to the newly joined client
 		messages.forEach(function(message) {
@@ -82,4 +80,9 @@ function storeChatter(nickname) {
 
 function getChatters() {
 	// Get all chatters from parse.com
+// get all objects (no parameters)
+	kaiseki.getObjects('Chatter', function(err, res, body, success) {
+	  console.log('all chatters = ', body);
+	  return body;
+	});
 }
