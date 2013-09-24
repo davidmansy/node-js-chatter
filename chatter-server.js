@@ -9,6 +9,8 @@ var app = require("express")()
   , MASTER_KEY = "DvQ7Ifq8YtCemeeIFEkitHS7Tb5pLaJc0gBKS7CR"
   , parseApp = new Parse(APP_ID, MASTER_KEY);
 
+console.log(parseApp);
+
 //Express
 server.listen(8080);
 
@@ -30,9 +32,11 @@ io.sockets.on('connection', function (client) {
 		//Store the new chatter in the list of chatters
 		storeChatter(nickname);
 		//Emit a "add chatter" event for each connected chatters to the client
+		/*
 		getChatters().forEach(function(chatter) {
 			client.emit('add chatter', chatter);
 		});
+*/
 
 		//Then send all existing message to the newly joined client
 		messages.forEach(function(message) {
