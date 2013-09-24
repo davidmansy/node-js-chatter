@@ -67,6 +67,7 @@ function storeMessage(nickname, message) {
 function storeChatter(nickname) {
 	// add a chatter on parse.com
 	parseApp.insert('Chatter', { nickname: nickname }, function (err, response) {
+		console.log("hello");
 	  console.log(response);
 	});
 }
