@@ -28,6 +28,7 @@
 
         //When a chatter has been added, display it in the list of chatters
         server.on('add chatter', function(nickname) {
+          console.log('Receiving add chatter on the client');
           displayChatter(nickname);
         })
 
