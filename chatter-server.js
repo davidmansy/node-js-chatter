@@ -45,10 +45,9 @@ io.sockets.on('connection', function (client) {
 		});
 
 		//Then send all existing message to the newly joined client
-		// query the last 10 messages
+		//TODO: Here I sort the rows by update date but I should also only get the last 10 rows 
 		var params = {
-		  order: '-updatedAt',
-		  limit: 10
+		  order: 'updatedAt',
 		};
 
 		kaiseki.getObjects('Message', params, function(err, res, messages, success) {
