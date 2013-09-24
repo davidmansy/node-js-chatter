@@ -7,7 +7,7 @@ var app = require("express")()
   , Parse = require('node-parse-api').Parse
   , APP_ID = "7zdZqj54MGxLbPW2s7TM3Ys68NVy3MPWOa1RWSJ7"
   , MASTER_KEY = "DvQ7Ifq8YtCemeeIFEkitHS7Tb5pLaJc0gBKS7CR"
-  , app = new Parse(APP_ID, MASTER_KEY);
+  , parseApp = new Parse(APP_ID, MASTER_KEY);
 
 //Express
 server.listen(8080);
