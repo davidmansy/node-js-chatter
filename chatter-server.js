@@ -45,7 +45,13 @@ io.sockets.on('connection', function (client) {
 		});
 
 		//Then send all existing message to the newly joined client
-		kaiseki.getObjects('Message', function(err, res, messages, success) {
+		// query the last 10 messages
+		var params = {
+		  order: 'updatedAt',
+		  limit: 10
+		};
+
+		kaiseki.getObjects('Message', params, function(err, res, messages, success) {
 		  console.log('all messages = ', messages);
 			messages.forEach(function(message) {
 				client.emit('messages', message.nickname + ": " + message.message);
@@ -68,8 +74,6 @@ io.sockets.on('connection', function (client) {
 			  console.log('object created = ', messageObj);
 			  console.log('object id = ', messageObj.objectId);
 			});
-
-
 
 			client.emit('messages', nickname + ": " + message);
 			client.broadcast.emit('messages', nickname + ": " + message);
